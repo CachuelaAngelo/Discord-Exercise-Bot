@@ -1,10 +1,13 @@
 import discord
 import os
-
+import random
 
 files = os.listdir('assets')
+filesPogi = os.listdir('assets/PogiPics')
+filesGanda = os.listdir('assets/GandaPics')
 
 
+print(filesPogi)
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -21,7 +24,15 @@ class MyClient(discord.Client):
             await message.channel.purge(limit=100)
 
         if message.content.lower().startswith('pogi'):
-            imagePath = 'assets/Raj.jpg'
+            randomPicture = random.choice(filesPogi)
+            imagePath = f'assets/PogiPics/{randomPicture}'
+            with open(imagePath, 'rb') as f:
+                picture = discord.File(f)
+                await message.channel.send(file=picture)
+
+        if message.content.lower().startswith('ganda'):
+            randomPicture = random.choice(filesGanda)
+            imagePath = f'assets/GandaPics/{randomPicture}'
             with open(imagePath, 'rb') as f:
                 picture = discord.File(f)
                 await message.channel.send(file=picture)
@@ -38,6 +49,8 @@ intents.message_content = True
 
 client = MyClient(intents=intents)
 client.run('MTQ2ODk2NzE2MjkwNjQxNTEyNQ.G9oWrn.qCboFlDq-S09wgE6ASG6ksdJBe3hyo9trcCpNQ')
+
+
 
 
    
